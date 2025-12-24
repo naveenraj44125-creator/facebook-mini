@@ -2053,6 +2053,12 @@ tmp/
 temp/
 GITIGNORE_EOF
 
+    # Remove node_modules from git tracking if it was previously added
+    # This prevents Code Defender from scanning AWS SDK example files
+    if [ -d "node_modules" ]; then
+        git rm -r --cached node_modules/ 2>/dev/null || true
+    fi
+
     echo -e "${GREEN}✓ Created .gitignore${NC}"
 }
 
