@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Naveen RP Mini</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 8px 16px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1877f2;
+            text-decoration: none;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 320px;
+            margin: 0 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background-color: #f0f2f5;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1877f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .logout-btn {
+            background-color: #e4e6ea;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Main Layout */
+        .main-container {
+            margin-top: 70px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+        }
+
+        .sidebar-left {
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+        }
+
+        .feed-container {
+            max-width: 500px;
+        }
+
+        .sidebar-right {
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+        }
+
+        /* Post Creation */
+        .create-post {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .create-post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .create-post textarea {
+            width: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            font-size: 16px;
+            font-family: inherit;
+            min-height: 60px;
+            padding: 8px 0;
+        }
+
+        .create-post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e4e6ea;
+        }
+
+        .media-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .media-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #65676b;
+        }
+
+        .media-btn:hover {
+            background-color: #f0f2f5;
+        }
+
+        .post-btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .post-btn:disabled {
+            background-color: #e4e6ea;
+            color: #bcc0c4;
+            cursor: not-allowed;
+        }
+
+        /* Posts */
+        .post {
+            background-color: #fff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 16px 16px 8px;
+            gap: 12px;
+        }
+
+        .post-author-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .post-time {
+            font-size: 13px;
+            color: #65676b;
+        }
+
+        .post-content {
+            padding: 0 16px 12px;
+            font-size: 15px;
+            line-height: 1.33;
+        }
+
+        .post-media {
+            margin-bottom: 12px;
+        }
+
+        .post-media img,
+        .post-media video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .post-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 16px;
+            font-size: 13px;
+            color: #65676b;
+            border-bottom: 1px solid #e4e6ea;
+        }
+
+        .post-actions {
+            display: flex;
+            padding: 4px 16px 8px;
+        }
+
+        .post-action {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px;
+            border: none;
+            background: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #65676b;
+            transition: background-color 0.2s;
+        }
+
+        .post-action:hover {
+            background-color: #f0f2f5;
+        }
+
+        .post-action.liked {
+            color: #1877f2;
+        }
+
+        .comments-section {
+            padding: 0 16px 16px;
+        }
+
+        .comment-input-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .comment-input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 12px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .comment {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .comment-content {
+            background-color: #f0f2f5;
+            border-radius: 16px;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        /* Login/Register Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #65676b;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .switch-mode {
+            text-align: center;
+            color: #65676b;
+            font-size: 14px;
+        }
+
+        .switch-mode a {
+            color: #1877f2;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        /* File Upload */
+        .file-input {
+            display: none;
+        }
+
+        .media-preview {
+            margin-top: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .media-preview img,
+        .media-preview video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .remove-media {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 0;
+                padding: 10px;
+            }
+
+            .sidebar-left,
+            .sidebar-right {
+                display: none;
+            }
+
+            .header-content {
+                padding: 0 10px;
+            }
+
+            .search-bar {
+                margin: 0 10px;
+                max-width: 200px;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1877f2;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Profile Picture Upload */
+        .profile-picture-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .edit-profile-pic {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .sidebar-section {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-section h3 {
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .user-search-results {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .user-result {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .user-result:hover {
+            background-color: #f0f2f5;
+        }
+
+        .user-result-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #1877f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">facebook-naveenrp-mini</a>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search Facebook" />
+            </div>
+
+            <div class="user-menu" id="userMenu" style="display: none;">
+                <div class="profile-picture-container">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <button class="edit-profile-pic" onclick="document.getElementById('profilePictureInput').click();">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+                <span id="userName">User</span>
+                <button class="logout-btn" onclick="logout()">Log out</button>
+            </div>
+
+            <button class="logout-btn" id="loginBtn" onclick="showLoginModal()">Log in</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container" id="mainContainer" style="display: none;">
+        <!-- Left Sidebar -->
+        <div class="sidebar-left">
+            <div class="sidebar-section">
+                <h3>Navigation</h3>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 6px; cursor: pointer;" onmouseover="this.style.backgroundColor='#f0f2f5'" onmouseout="this.style.backgroundColor='transparent'">
+                        <i class="fas fa-user" style="color: #1877f2;"></i>
+                        <span>Profile</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 6px; cursor: pointer;" onmouseover="this.style.backgroundColor='#f0f2f5'" onmouseout="this.style.backgroundColor='transparent'">
+                        <i class="fas fa-users" style="color: #1877f2;"></i>
+                        <span>Friends</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 6px; cursor: pointer;" onmouseover="this.style.backgroundColor='#f0f2f5'" onmouseout="this.style.backgroundColor='transparent'">
+                        <i class="fas fa-images" style="color: #1877f2;"></i>
+                        <span>Photos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Feed -->
+        <div class="feed-container">
+            <!-- Create Post -->
+            <div class="create-post">
+                <div class="create-post-header">
+                    <div class="user-avatar" id="createPostAvatar">U</div>
+                    <textarea id="postContent" placeholder="What's on your mind?"></textarea>
+                </div>
+                <div class="media-preview" id="mediaPreview" style="display: none; position: relative;"></div>
+                <div class="create-post-actions">
+                    <div class="media-buttons">
+                        <button class="media-btn" onclick="document.getElementById('imageInput').click();">
+                            <i class="fas fa-image" style="color: #45bd62;"></i>
+                            Photo
+                        </button>
+                        <button class="media-btn" onclick="document.getElementById('videoInput').click();">
+                            <i class="fas fa-video" style="color: #f3425f;"></i>
+                            Video
+                        </button>
+                    </div>
+                    <button class="post-btn" id="postBtn" onclick="createPost()" disabled>Post</button>
+                </div>
+            </div>
+
+            <!-- Posts Feed -->
+            <div id="postsContainer">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="sidebar-right">
+            <div class="sidebar-section">
+                <h3>Search Users</h3>
+                <input type="text" id="userSearch" placeholder="Search for people..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 12px;">
+                <div id="userSearchResults" class="user-search-results"></div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Online Friends</h3>
+                <p style="color: #65676b; font-size: 14px;">Feature coming soon...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Register Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            
+            <div class="modal-header">
+                <h2 id="modalTitle">Log In</h2>
+                <p id="modalSubtitle">Connect with friends and the world around you on Facebook Mini.</p>
+            </div>
+
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            <div id="successMessage" class="success-message" style="display: none;"></div>
+
+            <form id="authForm">
+                <div id="loginFields">
+                    <div class="form-group">
+                        <input type="text" id="loginUsername" placeholder="Email or username" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                    </div>
+                </div>
+
+                <div id="registerFields" style="display: none;">
+                    <div class="form-group">
+                        <input type="text" id="registerUsername" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="registerEmail" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="registerFirstName" placeholder="First name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="registerLastName" placeholder="Last name">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="registerPassword" placeholder="Password">
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Log In</button>
+            </form>
+
+            <div class="switch-mode">
+                <span id="switchText">Don't have an account? </span>
+                <a id="switchLink" onclick="switchAuthMode()">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file inputs -->
+    <input type="file" id="imageInput" class="file-input" accept="image/*" onchange="handleMediaSelect(this)">
+    <input type="file" id="videoInput" class="file-input" accept="video/*" onchange="handleMediaSelect(this)">
+    <input type="file" id="profilePictureInput" class="file-input" accept="image/*" onchange="handleProfilePictureUpload(this)">
+
+    <!-- Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <script>
+        // Global variables
+        let currentUser = null;
+        let authToken = null;
+        let selectedMedia = null;
+        let socket = null;
+        let isLoginMode = true;
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for existing auth token
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                authToken = token;
+                validateTokenAndLoadApp();
+            } else {
+                showLoginModal();
+            }
+
+            // Event listeners
+            document.getElementById('postContent').addEventListener('input', updatePostButton);
+            document.getElementById('authForm').addEventListener('submit', handleAuthSubmit);
+            document.getElementById('searchInput').addEventListener('input', debounce(handleSearch, 300));
+            document.getElementById('userSearch').addEventListener('input', debounce(searchUsers, 300));
+        });
+
+        // Authentication functions
+        async function validateTokenAndLoadApp() {
+            try {
+                const response = await fetch('/api/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    currentUser = await response.json();
+                    loadApp();
+                } else {
+                    localStorage.removeItem('authToken');
+                    showLoginModal();
+                }
+            } catch (error) {
+                console.error('Token validation failed:', error);
+                localStorage.removeItem('authToken');
+                showLoginModal();
+            }
+        }
+
+        function loadApp() {
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('userMenu').style.display = 'flex';
+            document.getElementById('mainContainer').style.display = 'grid';
+            closeModal();
+
+            // Update user info in header
+            document.getElementById('userName').textContent = currentUser.firstName + ' ' + currentUser.lastName;
+            updateUserAvatar(document.getElementById('userAvatar'), currentUser);
+            updateUserAvatar(document.getElementById('createPostAvatar'), currentUser);
+
+            // Initialize socket connection
+            initializeSocket();
+
+            // Load posts
+            loadPosts();
+        }
+
+        function updateUserAvatar(element, user) {
+            if (user.profilePicture) {
+                element.innerHTML = `<img src="${user.profilePicture}" alt="Profile">`;
+            } else {
+                element.innerHTML = (user.firstName?.[0] || 'U') + (user.lastName?.[0] || '');
+            }
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            clearMessages();
+
+            const endpoint = isLoginMode ? '/api/login' : '/api/register';
+            const formData = isLoginMode ? {
+                username: document.getElementById('loginUsername').value,
+                password: document.getElementById('loginPassword').value
+            } : {
+                username: document.getElementById('registerUsername').value,
+                email: document.getElementById('registerEmail').value,
+                firstName: document.getElementById('registerFirstName').value,
+                lastName: document.getElementById('registerLastName').value,
+                password: document.getElementById('registerPassword').value
+            };
+
+            try {
+                document.getElementById('submitBtn').textContent = 'Processing...';
+                document.getElementById('submitBtn').disabled = true;
+
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    authToken = data.token;
+                    currentUser = data.user;
+                    localStorage.setItem('authToken', authToken);
+                    
+                    if (!isLoginMode) {
+                        showMessage('Account created successfully!', 'success');
+                        setTimeout(() => loadApp(), 1000);
+                    } else {
+                        loadApp();
+                    }
+                } else {
+                    showMessage(data.error || 'Authentication failed', 'error');
+                }
+            } catch (error) {
+                console.error('Auth error:', error);
+                showMessage('Network error. Please try again.', 'error');
+            } finally {
+                document.getElementById('submitBtn').textContent = isLoginMode ? 'Log In' : 'Sign Up';
+                document.getElementById('submitBtn').disabled = false;
+            }
+        }
+
+        function switchAuthMode() {
+            isLoginMode = !isLoginMode;
+            clearMessages();
+
+            if (isLoginMode) {
+                document.getElementById('modalTitle').textContent = 'Log In';
+                document.getElementById('modalSubtitle').textContent = 'Connect with friends and the world around you on Facebook Mini.';
+                document.getElementById('submitBtn').textContent = 'Log In';
+                document.getElementById('switchText').textContent = "Don't have an account? ";
+                document.getElementById('switchLink').textContent = 'Sign Up';
+                document.getElementById('loginFields').style.display = 'block';
+                document.getElementById('registerFields').style.display = 'none';
+            } else {
+                document.getElementById('modalTitle').textContent = 'Sign Up';
+                document.getElementById('modalSubtitle').textContent = 'Create a new account to get started.';
+                document.getElementById('submitBtn').textContent = 'Sign Up';
+                document.getElementById('switchText').textContent = 'Already have an account? ';
+                document.getElementById('switchLink').textContent = 'Log In';
+                document.getElementById('loginFields').style.display = 'none';
+                document.getElementById('registerFields').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            authToken = null;
+            currentUser = null;
+            
+            if (socket) {
+                socket.disconnect();
+                socket = null;
+            }
+
+            document.getElementById('userMenu').style.display = 'none';
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('mainContainer').style.display = 'none';
+            
+            showLoginModal();
+        }
+
+        // Modal functions
+        function showLoginModal() {
+            document.getElementById('authModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('authModal').classList.remove('show');
+            clearMessages();
+        }
+
+        function showMessage(message, type) {
+            clearMessages();
+            const messageElement = document.getElementById(type + 'Message');
+            messageElement.textContent = message;
+            messageElement.style.display = 'block';
+        }
+
+        function clearMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // Post functions
+        function updatePostButton() {
+            const content = document.getElementById('postContent').value.trim();
+            const hasMedia = selectedMedia !== null;
+            document.getElementById('postBtn').disabled = !content && !hasMedia;
+        }
+
+        function handleMediaSelect(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            selectedMedia = file;
+            const preview = document.getElementById('mediaPreview');
+            
+            if (file.type.startsWith('image/')) {
+                preview.innerHTML = `
+                    <img src="${URL.createObjectURL(file)}" alt="Preview">
+                    <button class="remove-media" onclick="removeMedia()">&times;</button>
+                `;
+            } else if (file.type.startsWith('video/')) {
+                preview.innerHTML = `
+                    <video controls>
+                        <source src="${URL.createObjectURL(file)}" type="${file.type}">
+                    </video>
+                    <button class="remove-media" onclick="removeMedia()">&times;</button>
+                `;
+            }
+            
+            preview.style.display = 'block';
+            updatePostButton();
+            
+            // Clear input
+            input.value = '';
+        }
+
+        function removeMedia() {
+            selectedMedia = null;
+            document.getElementById('mediaPreview').style.display = 'none';
+            updatePostButton();
+        }
+
+        async function createPost() {
+            const content = document.getElementById('postContent').value.trim();
+            
+            if (!content && !selectedMedia) return;
+
+            const formData = new FormData();
+            if (content) formData.append('content', content);
+            if (selectedMedia) formData.append('media', selectedMedia);
+
+            try {
+                document.getElementById('postBtn').disabled = true;
+                document.getElementById('postBtn').textContent = 'Posting...';
+
+                const response = await fetch('/api/posts', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const newPost = await response.json();
+                    // Clear form
+                    document.getElementById('postContent').value = '';
+                    removeMedia();
+                    // Reload posts to show new post
+                    loadPosts();
+                } else {
+                    const error = await response.json();
+                    alert('Failed to create post: ' + (error.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error creating post:', error);
+                alert('Failed to create post. Please try again.');
+            } finally {
+                document.getElementById('postBtn').disabled = false;
+                document.getElementById('postBtn').textContent = 'Post';
+                updatePostButton();
+            }
+        }
+
+        async function loadPosts() {
+            try {
+                const response = await fetch('/api/posts', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const posts = await response.json();
+                    displayPosts(posts);
+                } else {
+                    console.error('Failed to load posts');
+                }
+            } catch (error) {
+                console.error('Error loading posts:', error);
+            }
+        }
+
+        function displayPosts(posts) {
+            const container = document.getElementById('postsContainer');
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #65676b;">No posts yet. Share something!</div>';
+                return;
+            }
+
+            container.innerHTML = posts.map(post => `
+                <div class="post" data-post-id="${post.id}">
+                    <div class="post-header">
+                        <div class="user-avatar">
+                            ${post.author.profilePicture ? 
+                                `<img src="${post.author.profilePicture}" alt="Profile">` :
+                                `${post.author.firstName?.[0] || 'U'}${post.author.lastName?.[0] || ''}`
+                            }
+                        </div>
+                        <div class="post-author-info">
+                            <h3>${post.author.firstName} ${post.author.lastName}</h3>
+                            <div class="post-time">${formatDate(post.createdAt)}</div>
+                        </div>
+                    </div>
+                    
+                    ${post.content ? `<div class="post-content">${escapeHtml(post.content)}</div>` : ''}
+                    
+                    ${post.imageUrl ? `
+                        <div class="post-media">
+                            <img src="${post.imageUrl}" alt="Post image">
+                        </div>
+                    ` : ''}
+                    
+                    ${post.videoUrl ? `
+                        <div class="post-media">
+                            <video controls>
+                                <source src="${post.videoUrl}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="post-stats">
+                        <span>${post.likesCount} ${post.likesCount === 1 ? 'like' : 'likes'}</span>
+                        <span>${post.commentsCount} ${post.commentsCount === 1 ? 'comment' : 'comments'}</span>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <button class="post-action ${post.userLiked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                            <i class="fas fa-thumbs-up"></i>
+                            Like
+                        </button>
+                        <button class="post-action" onclick="toggleComments(${post.id})">
+                            <i class="fas fa-comment"></i>
+                            Comment
+                        </button>
+                        <button class="post-action">
+                            <i class="fas fa-share"></i>
+                            Share
+                        </button>
+                    </div>
+                    
+                    <div class="comments-section" id="comments-${post.id}" style="display: none;">
+                        <div class="comment-input-container">
+                            <div class="user-avatar">
+                                ${currentUser.profilePicture ? 
+                                    `<img src="${currentUser.profilePicture}" alt="Profile">` :
+                                    `${currentUser.firstName?.[0] || 'U'}${currentUser.lastName?.[0] || ''}`
+                                }
+                            </div>
+                            <input type="text" class="comment-input" placeholder="Write a comment..." 
+                                   onkeypress="handleCommentKeypress(event, ${post.id})">
+                        </div>
+                        <div id="comments-list-${post.id}"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function toggleLike(postId) {
+            try {
+                const response = await fetch(`/api/posts/${postId}/like`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    // Reload posts to update like count
+                    loadPosts();
+                } else {
+                    console.error('Failed to toggle like');
+                }
+            } catch (error) {
+                console.error('Error toggling like:', error);
+            }
+        }
+
+        async function toggleComments(postId) {
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            const isVisible = commentsSection.style.display !== 'none';
+            
+            if (isVisible) {
+                commentsSection.style.display = 'none';
+            } else {
+                commentsSection.style.display = 'block';
+                await loadComments(postId);
+            }
+        }
+
+        async function loadComments(postId) {
+            try {
+                const response = await fetch(`/api/posts/${postId}/comments`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const comments = await response.json();
+                    displayComments(postId, comments);
+                } else {
+                    console.error('Failed to load comments');
+                }
+            } catch (error) {
+                console.error('Error loading comments:', error);
+            }
+        }
+
+        function displayComments(postId, comments) {
+            const container = document.getElementById(`comments-list-${postId}`);
+            
+            container.innerHTML = comments.map(comment => `
+                <div class="comment">
+                    <div class="user-avatar">
+                        ${comment.author.profilePicture ? 
+                            `<img src="${comment.author.profilePicture}" alt="Profile">` :
+                            `${comment.author.firstName?.[0] || 'U'}${comment.author.lastName?.[0] || ''}`
+                        }
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-author">${comment.author.firstName} ${comment.author.lastName}</div>
+                        <div>${escapeHtml(comment.content)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function handleCommentKeypress(event, postId) {
+            if (event.key === 'Enter') {
+                const input = event.target;
+                const content = input.value.trim();
+                
+                if (!content) return;
+
+                try {
+                    const response = await fetch(`/api/posts/${postId}/comments`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify({ content })
+                    });
+
+                    if (response.ok) {
+                        input.value = '';
+                        await loadComments(postId);
+                        // Also reload posts to update comment count
+                        loadPosts();
+                    } else {
+                        console.error('Failed to add comment');
+                    }
+                } catch (error) {
+                    console.error('Error adding comment:', error);
+                }
+            }
+        }
+
+        async function handleProfilePictureUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('profilePicture', file);
+
+            try {
+                const response = await fetch('/api/profile/picture', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    currentUser.profilePicture = data.profilePicture;
+                    
+                    // Update avatars on the page
+                    updateUserAvatar(document.getElementById('userAvatar'), currentUser);
+                    updateUserAvatar(document.getElementById('createPostAvatar'), currentUser);
+                    
+                    alert('Profile picture updated successfully!');
+                } else {
+                    const error = await response.json();
+                    alert('Failed to update profile picture: ' + (error.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error uploading profile picture:', error);
+                alert('Failed to upload profile picture. Please try again.');
+            }
+        }
+
+        async function searchUsers(event) {
+            const query = event.target.value.trim();
+            const resultsContainer = document.getElementById('userSearchResults');
+            
+            if (!query) {
+                resultsContainer.innerHTML = '';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/search/users?q=${encodeURIComponent(query)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const users = await response.json();
+                    displayUserSearchResults(users);
+                } else {
+                    console.error('Search failed');
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+            }
+        }
+
+        function displayUserSearchResults(users) {
+            const container = document.getElementById('userSearchResults');
+            
+            if (users.length === 0) {
+                container.innerHTML = '<div style="padding: 8px; color: #65676b; font-size: 14px;">No users found</div>';
+                return;
+            }
+
+            container.innerHTML = users.map(user => `
+                <div class="user-result" onclick="viewUserProfile(${user.id})">
+                    <div class="user-result-avatar">
+                        ${user.profilePicture ? 
+                            `<img src="${user.profilePicture}" alt="Profile" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` :
+                            `${user.firstName?.[0] || 'U'}${user.lastName?.[0] || ''}`
+                        }
+                    </div>
+                    <div>
+                        <div style="font-weight: 600; font-size: 14px;">${user.firstName} ${user.lastName}</div>
+                        <div style="color: #65676b; font-size: 12px;">@${user.username}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewUserProfile(userId) {
+            // This could navigate to a user profile page
+            alert(`Profile view for user ${userId} - Feature coming soon!`);
+        }
+
+        function handleSearch(event) {
+            const query = event.target.value.trim();
+            
+            if (!query) return;
+
+            // This could implement global search functionality
+            console.log('Searching for:', query);
+        }
+
+        function initializeSocket() {
+            socket = io();
+            
+            socket.on('connect', () => {
+                console.log('Connected to server');
+            });
+
+            socket.on('newPost', (post) => {
+                // Reload posts when a new post is created by any user
+                loadPosts();
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Disconnected from server');
+            });
+        }
+
+        // Utility functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - date) / 1000);
+            
+            if (diffInSeconds < 60) return 'Just now';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
+            if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d`;
+            
+            return date.toLocaleDateString();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+    </script>
+</body>
+</html>
