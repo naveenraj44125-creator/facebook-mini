@@ -1,0 +1,136 @@
+.friends-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.friends-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.friends-tabs button {
+  padding: 12px 24px;
+  background: white;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #65676b;
+}
+
+.friends-tabs button.active {
+  background: #e7f3ff;
+  color: #1877f2;
+}
+
+.friends-content {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.friends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.friend-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: #f0f2f5;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.friend-card a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.friend-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #1877f2;
+  color: white;
+  font-size: 32px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.friend-card span {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.add-btn {
+  background: #1877f2;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.request-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #f0f2f5;
+  border-radius: 8px;
+}
+
+.request-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.request-info .friend-avatar {
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  margin-bottom: 0;
+}
+
+.request-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.accept-btn {
+  background: #1877f2;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.reject-btn {
+  background: #e4e6eb;
+  color: #1c1e21;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.empty {
+  text-align: center;
+  color: #65676b;
+  padding: 40px;
+}

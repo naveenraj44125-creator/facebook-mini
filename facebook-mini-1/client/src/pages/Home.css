@@ -1,0 +1,17 @@
+.home {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.feed {
+  width: 100%;
+}
+
+.empty-feed {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  text-align: center;
+  color: #65676b;
+}
